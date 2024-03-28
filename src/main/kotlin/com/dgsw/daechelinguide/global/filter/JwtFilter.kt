@@ -21,7 +21,7 @@ class JwtFilter(
 
         SecurityContextHolder.clearContext()
         token?.let {
-            SecurityContextHolder.getContext().authentication = tokenParser.getAuthentication(it)
+            SecurityContextHolder.getContext().authentication = tokenParser.getAuthentication(token)
         }
 
         filterChain.doFilter(request, response)
