@@ -31,7 +31,6 @@ class MenuService(
                 MealType.TYPE_BREAKFAST -> breakfast = it.menu
                 MealType.TYPE_LUNCH -> lunch = it.menu
                 MealType.TYPE_DINNER -> dinner = it.menu
-                else -> throw RuntimeException("이상해")
             }
         }
 
