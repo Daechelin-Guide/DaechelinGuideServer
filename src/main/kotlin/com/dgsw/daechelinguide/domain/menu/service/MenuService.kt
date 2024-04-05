@@ -10,8 +10,8 @@ import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 import org.springframework.stereotype.Service
-import java.lang.NullPointerException
-import kotlin.RuntimeException
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Service
 class MenuService(
@@ -25,6 +25,11 @@ class MenuService(
         var breakfast: String? = null
         var lunch: String? = null
         var dinner: String? = null
+        val inputFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy년 MM월 dd일 (E)", Locale.getDefault())
+
+        val day = inputFormat.parse(date)
+        val formattedDate = outputFormat.format(day)
 
         meal.map {
             when(it.mealType) {
@@ -34,7 +39,7 @@ class MenuService(
             }
         }
 
-        return MealResponse(breakfast, lunch, dinner)
+        return MealResponse(formattedDate, breakfast, lunch, dinner)
     }
 
     fun getMealDetail(date: String, mealType: MealType): MenuEntity {
