@@ -15,6 +15,5 @@ data class MealDetailResponse(
     val date: String,
     val cal: String? = null,
     val nutrients: String? = null,
-    val rating: Double,
     val mealType: MealType
 )

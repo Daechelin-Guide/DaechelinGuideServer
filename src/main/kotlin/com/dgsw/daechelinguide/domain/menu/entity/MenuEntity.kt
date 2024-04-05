@@ -17,13 +17,6 @@ class MenuEntity(
 
     val nutrients: String? = null,
 
-    val rating: Double? = 0.0,
-
     @Enumerated(EnumType.STRING)
     val mealType: MealType
-) {
-
-    override fun toString(): String {
-        return "MenuEntity(id=$id, menu=$menu, date='$date', cal=$cal, nutrients=$nutrients, mealType=$mealType)"
-    }
-}
+)
