@@ -79,10 +79,7 @@ class MenuService(
 
     private fun getMenuEntity(date: String, meal: String, mealType: MealType): MenuEntity {
         val menuEntity = MenuEntity(
-            menu = null,
             date = date,
-            cal = null,
-            nutrients = null,
             mealType = mealType
         )
 
