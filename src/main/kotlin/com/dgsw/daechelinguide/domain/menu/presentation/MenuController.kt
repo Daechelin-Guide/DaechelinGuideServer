@@ -1,7 +1,7 @@
 package com.dgsw.daechelinguide.domain.menu.presentation
 
-import com.dgsw.daechelinguide.domain.menu.entity.MenuEntity
 import com.dgsw.daechelinguide.domain.menu.entity.value.MealType
+import com.dgsw.daechelinguide.domain.menu.presentation.dto.MealDetailResponse
 import com.dgsw.daechelinguide.domain.menu.presentation.dto.MealResponse
 import com.dgsw.daechelinguide.domain.menu.service.MenuService
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,7 +22,7 @@ class MenuController(
 
     @GetMapping("/detail")
     fun getMenuDetail(@RequestParam(name = "date") date: String,
-                      @RequestParam(name = "mealType") mealType: MealType): MenuEntity {
+                      @RequestParam(name = "mealType") mealType: MealType): MealDetailResponse {
         return menuService.getMealDetail(date, mealType)
     }
 }

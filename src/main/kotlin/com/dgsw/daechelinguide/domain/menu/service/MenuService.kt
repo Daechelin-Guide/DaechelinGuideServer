@@ -2,6 +2,7 @@ package com.dgsw.daechelinguide.domain.menu.service
 
 import com.dgsw.daechelinguide.domain.menu.entity.MenuEntity
 import com.dgsw.daechelinguide.domain.menu.entity.value.MealType
+import com.dgsw.daechelinguide.domain.menu.presentation.dto.MealDetailResponse
 import com.dgsw.daechelinguide.domain.menu.presentation.dto.MealResponse
 import com.dgsw.daechelinguide.domain.menu.repository.MenuRepository
 import com.dgsw.daechelinguide.global.feign.NeisClient
@@ -25,11 +26,7 @@ class MenuService(
         var breakfast: String? = null
         var lunch: String? = null
         var dinner: String? = null
-        val inputFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("yyyy년 MM월 dd일 (E)", Locale.getDefault())
-
-        val day = inputFormat.parse(date)
-        val formattedDate = outputFormat.format(day)
+        val formatDate = getFormatTime(date)
 
         meal.map {
             when(it.mealType) {
@@ -39,17 +36,21 @@ class MenuService(
             }
         }
 
-        return MealResponse(formattedDate, breakfast, lunch, dinner)
+        return MealResponse(formatDate, breakfast, lunch, dinner)
     }
 
-    fun getMealDetail(date: String, mealType: MealType): MenuEntity {
-        println(mealType)
+    fun getMealDetail(date: String, mealType: MealType): MealDetailResponse {
         val meal = menuRepository.findByDateAndMealType(date, mealType)
             ?: throw RuntimeException("으아")
+        val formatDate = getFormatTime(meal.date)
 
-        println(meal.toString())
-
-        return meal
+        return MealDetailResponse(
+            id = meal.id!!,
+            menu = meal.menu,
+            date = formatDate,
+            cal = meal.cal,
+            nutrients = meal.nutrients
+        )
     }
 
     fun mealInfo(date: String) {
@@ -65,6 +66,13 @@ class MenuService(
         val dinner = getMenuEntity(date, meal, MealType.TYPE_DINNER)
 
         menuRepository.saveAll(listOf(breakfast, lunch, dinner))
+    }
+
+    private fun getFormatTime(date: String): String {
+        val inputFormat = SimpleDateFormat("yyyyMMdd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("yyyy년 MM월 dd일 (E)", Locale.getDefault())
+
+        return outputFormat.format(inputFormat.parse(date))
     }
 
     private fun getMenuEntity(date: String, meal: String, mealType: MealType): MenuEntity {

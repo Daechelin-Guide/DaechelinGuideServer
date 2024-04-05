@@ -6,3 +6,15 @@ data class MealResponse(
     val lunch: String?,
     val dinner: String?
 )
+
+data class MealDetailResponse(
+    val id: Long,
+
+    val menu: String? = null,
+
+    val date: String,
+
+    val cal: String? = null,
+
+    val nutrients: String? = null
+)
