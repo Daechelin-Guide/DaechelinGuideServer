@@ -49,7 +49,8 @@ class MenuService(
             menu = meal.menu,
             date = formatDate,
             cal = meal.cal,
-            nutrients = meal.nutrients
+            nutrients = meal.nutrients,
+            mealType = meal.mealType
         )
     }
 
