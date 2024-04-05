@@ -17,6 +17,8 @@ class MenuEntity(
 
     val nutrients: String? = null,
 
+    val rating: Double? = 0.0,
+
     @Enumerated(EnumType.STRING)
     val mealType: MealType
 ) {
