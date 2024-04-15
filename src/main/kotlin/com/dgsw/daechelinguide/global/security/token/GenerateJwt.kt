@@ -1,4 +1,4 @@
-package com.dgsw.daechelinguide.global.filter.security.token
+package com.dgsw.daechelinguide.global.security.token
 
 import com.dgsw.daechelinguide.domain.auth.entity.RefreshToken
 import com.dgsw.daechelinguide.domain.auth.presentation.dto.TokenResponse

@@ -1,4 +1,4 @@
-package com.dgsw.daechelinguide.global.filter.security.token
+package com.dgsw.daechelinguide.global.security.token
 
 object JwtUtils {
     const val HEADER = "Authorization"

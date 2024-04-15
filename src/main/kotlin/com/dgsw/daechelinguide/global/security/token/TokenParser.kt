@@ -1,4 +1,4 @@
-package com.dgsw.daechelinguide.global.filter.security.token
+package com.dgsw.daechelinguide.global.security.token
 
 import com.dgsw.daechelinguide.global.auth.AuthDetailService
 import com.dgsw.daechelinguide.global.property.JwtProperties

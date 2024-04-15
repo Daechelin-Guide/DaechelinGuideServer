@@ -1,6 +1,5 @@
-package com.dgsw.daechelinguide.global.filter.security
+package com.dgsw.daechelinguide.global.security
 
-import com.dgsw.daechelinguide.domain.member.entity.value.Role
 import com.dgsw.daechelinguide.global.filter.FilterConfig
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
