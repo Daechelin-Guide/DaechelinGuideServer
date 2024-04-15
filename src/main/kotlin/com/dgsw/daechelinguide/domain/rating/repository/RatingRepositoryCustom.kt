@@ -16,4 +16,15 @@ class RatingRepositoryCustom(
             .from(ratingEntity)
             .fetchOne()
     }
+
+    fun findRatingCommentByMenuId(menuId: Long): List<String> {
+        val ratingEntity = QRating.rating
+
+        return jpaQueryFactory.query()
+            .select(ratingEntity.comment)
+            .from(ratingEntity)
+            .where(ratingEntity.comment.isNotNull)
+            .where(ratingEntity.menu.id.eq(menuId))
+            .fetch()
+    }
 }
