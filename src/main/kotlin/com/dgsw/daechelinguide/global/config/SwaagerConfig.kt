@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration
 
 
 @Configuration
-class SwaggerConfig {
+class SwaagerConfig {
     @Bean
     fun openAPI(): OpenAPI {
         val info: Info = Info()
