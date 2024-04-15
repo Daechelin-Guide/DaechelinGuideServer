@@ -4,15 +4,16 @@ import com.b1nd.dauth.client.response.DAuthUser
 import com.dgsw.daechelinguide.domain.member.entity.Member
 import com.dgsw.daechelinguide.domain.member.entity.value.Role
 import com.dgsw.daechelinguide.domain.member.repository.MemberRepository
+import com.dgsw.daechelinguide.global.security.service.SecurityService
 import org.springframework.stereotype.Service
 
 @Service
 class MemberService(
-    private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
+    private val securityService: SecurityService
 ) {
 
-    fun signUP(userInfo: DAuthUser): Member {
-
+    fun signUp(userInfo: DAuthUser): Member {
         val member = Member(
             grade = userInfo.grade,
             room = userInfo.room,
@@ -26,6 +27,11 @@ class MemberService(
         )
 
         return memberRepository.save(member)
+    }
+
+    fun getCurrentMember(): Member {
+        return memberRepository.findMemberById(securityService.getCurrentUserId())
+            ?: throw RuntimeException("시발")
     }
 
     fun existMember(member: DAuthUser): Boolean {
