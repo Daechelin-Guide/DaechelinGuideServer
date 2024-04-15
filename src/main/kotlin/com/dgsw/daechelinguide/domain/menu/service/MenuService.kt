@@ -1,6 +1,6 @@
 package com.dgsw.daechelinguide.domain.menu.service
 
-import com.dgsw.daechelinguide.domain.menu.entity.MenuEntity
+import com.dgsw.daechelinguide.domain.menu.entity.Menu
 import com.dgsw.daechelinguide.domain.menu.entity.value.MealType
 import com.dgsw.daechelinguide.domain.menu.presentation.dto.MealDetailResponse
 import com.dgsw.daechelinguide.domain.menu.presentation.dto.MealResponse
@@ -50,8 +50,14 @@ class MenuService(
             date = formatDate,
             cal = meal.cal,
             nutrients = meal.nutrients,
+            totalScore = meal.totalScore!!,
             mealType = meal.mealType
         )
+    }
+
+    fun getMenu(menuId: Long): Menu {
+        return menuRepository.findMenuById(menuId)
+            ?: throw RuntimeException("시발")
     }
 
     fun mealInfo(date: String) {
@@ -76,8 +82,8 @@ class MenuService(
         return outputFormat.format(inputFormat.parse(date))
     }
 
-    private fun getMenuEntity(date: String, meal: String, mealType: MealType): MenuEntity {
-        val menuEntity = MenuEntity(
+    private fun getMenuEntity(date: String, meal: String, mealType: MealType): Menu {
+        val menu = Menu(
             date = date,
             mealType = mealType
         )
@@ -103,7 +109,7 @@ class MenuService(
                         .trim().replace(Regex("\\s{2}"), ", ")
                         .replace("1", "")
 
-                    return MenuEntity(
+                    return Menu(
                         menu = mealMenu,
                         date = date,
                         cal = cal,
@@ -113,11 +119,11 @@ class MenuService(
                 }
             }
         } catch (e: NullPointerException) {
-            return menuEntity
+            return menu
         } catch (e: Exception) {
             throw RuntimeException("나이스 병신")
         }
 
-        return menuEntity
+        return menu
     }
 }
