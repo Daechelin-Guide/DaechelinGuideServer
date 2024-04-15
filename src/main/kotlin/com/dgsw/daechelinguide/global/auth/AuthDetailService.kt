@@ -12,6 +12,9 @@ class AuthDetailService(
     override fun loadUserByUsername(memberId: String): UserDetails {
         val member = memberRepository.findMemberById(memberId.toLong())
             ?: throw RuntimeException()
-        return AuthDerails(member)
+        return AuthDerails(
+            memberId = member.id!!,
+            role = member.role
+        )
     }
 }

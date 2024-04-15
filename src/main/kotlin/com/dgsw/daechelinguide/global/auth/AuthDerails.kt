@@ -1,15 +1,17 @@
 package com.dgsw.daechelinguide.global.auth
 
-import com.dgsw.daechelinguide.domain.member.entity.Member
+import com.dgsw.daechelinguide.domain.member.entity.value.Role
+import com.dgsw.daechelinguide.global.security.principle.CustomDetails
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class AuthDerails(
-    private val member: Member
-): UserDetails {
+    override val memberId: Long,
+    override val role: Role
+): UserDetails, CustomDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return mutableListOf(SimpleGrantedAuthority(member.role.name))
+        return mutableListOf(SimpleGrantedAuthority(role.name))
     }
 
     override fun getPassword(): String? {
@@ -17,7 +19,7 @@ class AuthDerails(
     }
 
     override fun getUsername(): String {
-        return member.id.toString()
+        return memberId.toString()
     }
 
     override fun isAccountNonExpired(): Boolean {
