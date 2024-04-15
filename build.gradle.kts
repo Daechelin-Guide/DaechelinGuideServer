@@ -5,6 +5,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
     kotlin("plugin.jpa") version "1.9.22"
     kotlin("jvm") version "1.9.22"
+    kotlin("kapt") version "1.9.22"
     kotlin("plugin.spring") version "1.9.22"
 }
 
@@ -41,6 +42,8 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
+    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
     runtimeOnly("com.mysql:mysql-connector-j")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.github.Team-B1ND:DAuth-SDK:v1.0.1")
