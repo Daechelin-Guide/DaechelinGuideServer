@@ -5,13 +5,16 @@ import com.dgsw.daechelinguide.domain.menu.service.MenuService
 import com.dgsw.daechelinguide.domain.rating.domain.Rating
 import com.dgsw.daechelinguide.domain.rating.event.RatingScoreUpdateEvent
 import com.dgsw.daechelinguide.domain.rating.presentation.dto.request.CreateRatingRequest
+import com.dgsw.daechelinguide.domain.rating.presentation.dto.response.RatingResponse
 import com.dgsw.daechelinguide.domain.rating.repository.RatingRepository
+import com.dgsw.daechelinguide.domain.rating.repository.RatingRepositoryCustom
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 
 @Service
 class RatingService(
     private val ratingRepository: RatingRepository,
+    private val ratingRepositoryCustom: RatingRepositoryCustom,
     private val memberService: MemberService,
     private val menuService: MenuService,
     private val applicationEventPublisher: ApplicationEventPublisher
@@ -37,7 +40,11 @@ class RatingService(
         }
     }
 
-//    fun getRatingList(): List<RatingRes> {
-//
-//    }
+    fun getRatingList(menuId: Long): List<RatingResponse> {
+        val comment = ratingRepositoryCustom.findRatingCommentByMenuId(menuId)
+
+        return comment.map {
+            RatingResponse(it)
+        }
+    }
 }
