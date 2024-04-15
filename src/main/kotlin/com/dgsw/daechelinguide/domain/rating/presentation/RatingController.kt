@@ -1,9 +1,11 @@
 package com.dgsw.daechelinguide.domain.rating.presentation
 
 import com.dgsw.daechelinguide.domain.rating.presentation.dto.request.CreateRatingRequest
+import com.dgsw.daechelinguide.domain.rating.presentation.dto.response.RatingResponse
 import com.dgsw.daechelinguide.domain.rating.service.RatingService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -24,5 +26,10 @@ class RatingController(
         @PathVariable(name = "menu-id") menuId: Long
         ) {
         ratingService.createRating(request, menuId)
+    }
+
+    @GetMapping("/{menu-id}")
+    fun getRatingList(@PathVariable("menu-id") menuId: Long): List<RatingResponse> {
+        return ratingService.getRatingList(menuId)
     }
 }
