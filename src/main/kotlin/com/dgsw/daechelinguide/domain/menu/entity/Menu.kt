@@ -5,7 +5,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "menu")
-class MenuEntity(
+class Menu(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
@@ -16,6 +16,8 @@ class MenuEntity(
     val cal: String? = null,
 
     val nutrients: String? = null,
+
+    var totalScore: Double? = 0.0,
 
     @Enumerated(EnumType.STRING)
     val mealType: MealType
