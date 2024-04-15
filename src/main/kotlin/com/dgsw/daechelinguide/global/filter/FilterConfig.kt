@@ -1,6 +1,6 @@
 package com.dgsw.daechelinguide.global.filter
 
-import com.dgsw.daechelinguide.global.filter.security.token.TokenParser
+import com.dgsw.daechelinguide.global.security.token.TokenParser
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.security.config.annotation.SecurityConfigurer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity

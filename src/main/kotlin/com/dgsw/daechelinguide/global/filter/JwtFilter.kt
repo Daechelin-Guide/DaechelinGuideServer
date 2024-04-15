@@ -1,7 +1,7 @@
 package com.dgsw.daechelinguide.global.filter
 
-import com.dgsw.daechelinguide.global.filter.security.token.JwtUtils
-import com.dgsw.daechelinguide.global.filter.security.token.TokenParser
+import com.dgsw.daechelinguide.global.security.token.JwtUtils
+import com.dgsw.daechelinguide.global.security.token.TokenParser
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
