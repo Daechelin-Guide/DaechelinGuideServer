@@ -11,7 +11,7 @@ class MealApiScheduler(
     private val menuService: MenuService
 ) {
 
-    @Scheduled(cron = "0 0 0 1 * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 0 1 * ?", zone = "Asia/Seoul")
     fun scheduledMenu() {
         var currentDate = LocalDate.now()
         val dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd")
@@ -21,6 +21,5 @@ class MealApiScheduler(
             menuService.mealInfo(currentDate.format(dateFormatter))
             currentDate = currentDate.plusDays(1)
         }
-
     }
 }
