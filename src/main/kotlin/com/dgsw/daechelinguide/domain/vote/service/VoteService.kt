@@ -80,7 +80,7 @@ class VoteService(
     )
     fun getCacheVoteMenu(voteId: Long, mealType: MealType): RankingListResponse {
         val vote = voteRepository.findVoteById(voteId)
-            ?: throw RuntimeException("으악")가
+            ?: throw RuntimeException("으악")
 
         val request = VoteMenuUploadEvent(
             voteId = vote.id!!,
