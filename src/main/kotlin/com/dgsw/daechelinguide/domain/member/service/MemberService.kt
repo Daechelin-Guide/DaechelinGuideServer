@@ -3,6 +3,7 @@ package com.dgsw.daechelinguide.domain.member.service
 import com.b1nd.dauth.client.response.DAuthUser
 import com.dgsw.daechelinguide.domain.member.entity.Member
 import com.dgsw.daechelinguide.domain.member.entity.value.Role
+import com.dgsw.daechelinguide.domain.member.repository.MemberQueryRepository
 import com.dgsw.daechelinguide.domain.member.repository.MemberRepository
 import com.dgsw.daechelinguide.global.security.service.SecurityService
 import org.springframework.stereotype.Service
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service
 @Service
 class MemberService(
     private val memberRepository: MemberRepository,
+    private val memberQueryRepository: MemberQueryRepository,
     private val securityService: SecurityService
 ) {
 
@@ -30,12 +32,12 @@ class MemberService(
     }
 
     fun getCurrentMember(): Member {
-        return memberRepository.findMemberById(securityService.getCurrentUserId())
+        return memberQueryRepository.findMemberById(securityService.getCurrentUserId())
             ?: throw RuntimeException("시발")
     }
 
     fun existMember(member: DAuthUser): Boolean {
-        return memberRepository.existsByGradeAndRoomAndNumber(
+        return memberQueryRepository.existsByGradeAndRoomAndNumber(
             member.grade,
             member.room,
             member.number
@@ -43,7 +45,7 @@ class MemberService(
     }
 
     fun getUser(member: DAuthUser): Member {
-        return memberRepository.findByGradeAndRoomAndNumber(
+        return memberQueryRepository.findByGradeAndRoomAndNumber(
             member.grade,
             member.room,
             member.number

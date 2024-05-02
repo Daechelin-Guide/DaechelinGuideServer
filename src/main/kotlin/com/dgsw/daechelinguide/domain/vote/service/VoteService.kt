@@ -1,18 +1,19 @@
 package com.dgsw.daechelinguide.domain.vote.service
 
-import com.dgsw.daechelinguide.domain.member.repository.MemberRepository
+import com.dgsw.daechelinguide.domain.member.repository.MemberQueryRepository
 import com.dgsw.daechelinguide.domain.menu.entity.value.MealType
-import com.dgsw.daechelinguide.domain.menu.repository.MenuRepositoryCustom
+import com.dgsw.daechelinguide.domain.menu.repository.MenuQueryRepository
 import com.dgsw.daechelinguide.domain.ranking.presentation.dto.response.RankingListResponse
 import com.dgsw.daechelinguide.domain.ranking.presentation.dto.response.RankingResponse
-import com.dgsw.daechelinguide.domain.vote.entity.VoteInfo
 import com.dgsw.daechelinguide.domain.vote.entity.Vote
+import com.dgsw.daechelinguide.domain.vote.entity.VoteInfo
 import com.dgsw.daechelinguide.domain.vote.event.VoteMenuUploadEvent
-import com.dgsw.daechelinguide.domain.vote.presentation.dto.response.VoteListResponse
 import com.dgsw.daechelinguide.domain.vote.presentation.dto.request.VoteMenuRequest
 import com.dgsw.daechelinguide.domain.vote.presentation.dto.request.VoteRequest
+import com.dgsw.daechelinguide.domain.vote.presentation.dto.response.VoteListResponse
 import com.dgsw.daechelinguide.domain.vote.presentation.dto.response.VoteResponse
 import com.dgsw.daechelinguide.domain.vote.repository.VoteInfoRepository
+import com.dgsw.daechelinguide.domain.vote.repository.VoteQueryRepository
 import com.dgsw.daechelinguide.domain.vote.repository.VoteRepository
 import com.dgsw.daechelinguide.global.security.service.SecurityService
 import org.springframework.cache.annotation.CachePut
@@ -25,11 +26,12 @@ import java.util.*
 
 @Service
 class VoteService(
-    private val voteRepository: VoteRepository,
     private val applicationEventPublisher: ApplicationEventPublisher,
-    private val menuRepositoryCustom: MenuRepositoryCustom,
     private val securityService: SecurityService,
-    private val memberRepository: MemberRepository,
+    private val memberQueryRepository: MemberQueryRepository,
+    private val menuQueryRepository: MenuQueryRepository,
+    private val voteQueryRepository: VoteQueryRepository,
+    private val voteRepository: VoteRepository,
     private val voteInfoRepository: VoteInfoRepository
 ) {
 
@@ -79,7 +81,7 @@ class VoteService(
         cacheManager = "contentCacheManager"
     )
     fun getCacheVoteMenu(voteId: Long, mealType: MealType): RankingListResponse {
-        val vote = voteRepository.findVoteById(voteId)
+        val vote = voteQueryRepository.findVoteById(voteId)
             ?: throw RuntimeException("으악")
 
         val request = VoteMenuUploadEvent(
@@ -97,7 +99,7 @@ class VoteService(
     )
     fun putCacheVoteMenu(request: VoteMenuUploadEvent, mealType: MealType): RankingListResponse {
         var index = 1
-        val menu = menuRepositoryCustom.findAllDate(request, mealType)
+        val menu = menuQueryRepository.findAllDate(request, mealType)
         val rankingResponse = menu.map {
             RankingResponse(
                 id = it.id!!,
@@ -112,15 +114,15 @@ class VoteService(
     }
 
     fun menuVote(request: VoteMenuRequest, voteId: Long) {
-        val member = memberRepository.findMemberById(securityService.getCurrentUserId())
+        val member = memberQueryRepository.findMemberById(securityService.getCurrentUserId())
             ?: throw RuntimeException("존재 하지 않음")
         val vote = voteRepository.findVoteById(voteId)
             ?: throw RuntimeException("존재 하지 않음")
-        val breakfast = menuRepositoryCustom.findById(request.breakfastId)
+        val breakfast = menuQueryRepository.findById(request.breakfastId)
             ?: throw RuntimeException("존재 하지 않음")
-        val lunch = menuRepositoryCustom.findById(request.lunchId)
+        val lunch = menuQueryRepository.findById(request.lunchId)
             ?: throw RuntimeException("존재 하지 않음")
-        val dinner = menuRepositoryCustom.findById(request.dinnerId)
+        val dinner = menuQueryRepository.findById(request.dinnerId)
             ?: throw RuntimeException("존재 하지 않음")
 
         val voteInfo = VoteInfo(

@@ -1,7 +1,7 @@
 package com.dgsw.daechelinguide.domain.ranking.service
 
 import com.dgsw.daechelinguide.domain.menu.entity.value.MealType
-import com.dgsw.daechelinguide.domain.menu.repository.MenuRepositoryCustom
+import com.dgsw.daechelinguide.domain.menu.repository.MenuQueryRepository
 import com.dgsw.daechelinguide.domain.ranking.presentation.dto.response.RankingListResponse
 import com.dgsw.daechelinguide.domain.ranking.presentation.dto.response.RankingResponse
 import org.springframework.cache.annotation.CachePut
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class RankingService(
-    private val menuRepositoryCustom: MenuRepositoryCustom
+    private val menuQueryRepository: MenuQueryRepository
 ) {
 
     @Cacheable(cacheNames = ["ranking"], key = "#mealType", cacheManager = "contentCacheManager")
@@ -22,7 +22,7 @@ class RankingService(
     @CachePut(cacheNames = ["ranking"], key = "#mealType", cacheManager = "contentCacheManager")
     fun getRanking(mealType: MealType): RankingListResponse {
         var index = 1
-        val menu = menuRepositoryCustom.findAllMenuOrderByAsc(mealType)
+        val menu = menuQueryRepository.findAllMenuOrderByDesc(mealType)
 
         val rankingResponse= menu.map {
             RankingResponse(

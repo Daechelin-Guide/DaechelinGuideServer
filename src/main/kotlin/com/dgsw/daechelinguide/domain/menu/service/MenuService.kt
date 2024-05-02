@@ -4,6 +4,7 @@ import com.dgsw.daechelinguide.domain.menu.entity.Menu
 import com.dgsw.daechelinguide.domain.menu.entity.value.MealType
 import com.dgsw.daechelinguide.domain.menu.presentation.dto.MealDetailResponse
 import com.dgsw.daechelinguide.domain.menu.presentation.dto.MealResponse
+import com.dgsw.daechelinguide.domain.menu.repository.MenuQueryRepository
 import com.dgsw.daechelinguide.domain.menu.repository.MenuRepository
 import com.dgsw.daechelinguide.global.feign.NeisClient
 import com.dgsw.daechelinguide.global.property.NeisProperties
@@ -16,13 +17,14 @@ import java.util.*
 
 @Service
 class MenuService(
+    private val menuQueryRepository: MenuQueryRepository,
     private val menuRepository: MenuRepository,
     private val neisClient: NeisClient,
     private val neisProperties: NeisProperties
 ) {
 
     fun getMeal(date: String): MealResponse {
-        val meal = menuRepository.findAllByDate(date)
+        val meal = menuQueryRepository.findAllByDate(date)
         var breakfast: String? = null
         var lunch: String? = null
         var dinner: String? = null
@@ -40,7 +42,7 @@ class MenuService(
     }
 
     fun getMealDetail(date: String, mealType: MealType): MealDetailResponse {
-        val meal = menuRepository.findByDateAndMealType(date, mealType)
+        val meal = menuQueryRepository.findByDateAndMealType(date, mealType)
             ?: throw RuntimeException("으아")
         val formatDate = getFormatTime(meal.date)
 
@@ -56,7 +58,7 @@ class MenuService(
     }
 
     fun getMenu(menuId: Long): Menu {
-        return menuRepository.findMenuById(menuId)
+        return menuQueryRepository.findById(menuId)
             ?: throw RuntimeException("시발")
     }
 
