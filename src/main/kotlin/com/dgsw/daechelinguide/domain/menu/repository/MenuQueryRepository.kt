@@ -8,9 +8,29 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
 @Repository
-class MenuRepositoryCustom(
+class MenuQueryRepository(
     private val jpaQueryFactory: JPAQueryFactory
 ) {
+
+    fun findAllByDate(date: String): List<Menu> {
+        val entity = QMenu.menu1
+
+        return jpaQueryFactory.selectFrom(entity)
+            .where(entity.date.eq(date))
+            .fetch()
+    }
+
+    fun findByDateAndMealType(date: String, mealType: MealType): Menu? {
+        val entity = QMenu.menu1
+
+        return jpaQueryFactory.selectFrom(entity)
+            .where(
+                entity.date.eq(date),
+                entity.mealType.eq(mealType)
+            )
+            .fetchOne()
+
+    }
 
     fun findById(menuId: Long): Menu? {
         val entity = QMenu.menu1
@@ -20,7 +40,7 @@ class MenuRepositoryCustom(
             .fetchOne()
     }
 
-    fun findAllMenuOrderByAsc(mealType: MealType): List<Menu> {
+    fun findAllMenuOrderByDesc(mealType: MealType): List<Menu> {
         val entity = QMenu.menu1
 
         return jpaQueryFactory.selectFrom(entity)
