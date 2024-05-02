@@ -13,6 +13,7 @@ class RatingRepositoryCustom(
 
         return jpaQueryFactory.query()
             .select(ratingEntity.score.avg())
+            .where(ratingEntity.menu.id.eq(menuId))
             .from(ratingEntity)
             .fetchOne()
     }
