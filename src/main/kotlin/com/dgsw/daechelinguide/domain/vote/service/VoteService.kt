@@ -1,6 +1,6 @@
 package com.dgsw.daechelinguide.domain.vote.service
 
-import com.dgsw.daechelinguide.domain.member.repository.MemberQueryRepository
+import com.dgsw.daechelinguide.domain.member.service.MemberService
 import com.dgsw.daechelinguide.domain.menu.entity.value.MealType
 import com.dgsw.daechelinguide.domain.menu.repository.MenuQueryRepository
 import com.dgsw.daechelinguide.domain.ranking.presentation.dto.response.RankingListResponse
@@ -15,7 +15,6 @@ import com.dgsw.daechelinguide.domain.vote.presentation.dto.response.VoteRespons
 import com.dgsw.daechelinguide.domain.vote.repository.VoteInfoRepository
 import com.dgsw.daechelinguide.domain.vote.repository.VoteQueryRepository
 import com.dgsw.daechelinguide.domain.vote.repository.VoteRepository
-import com.dgsw.daechelinguide.global.security.service.SecurityService
 import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.context.ApplicationEventPublisher
@@ -27,8 +26,7 @@ import java.util.*
 @Service
 class VoteService(
     private val applicationEventPublisher: ApplicationEventPublisher,
-    private val securityService: SecurityService,
-    private val memberQueryRepository: MemberQueryRepository,
+    private val memberService: MemberService,
     private val menuQueryRepository: MenuQueryRepository,
     private val voteQueryRepository: VoteQueryRepository,
     private val voteRepository: VoteRepository,
@@ -114,8 +112,7 @@ class VoteService(
     }
 
     fun menuVote(request: VoteMenuRequest, voteId: Long) {
-        val member = memberQueryRepository.findMemberById(securityService.getCurrentUserId())
-            ?: throw RuntimeException("존재 하지 않음")
+        val member = memberService.getCurrentMember()
         val vote = voteRepository.findVoteById(voteId)
             ?: throw RuntimeException("존재 하지 않음")
         val breakfast = menuQueryRepository.findById(request.breakfastId)

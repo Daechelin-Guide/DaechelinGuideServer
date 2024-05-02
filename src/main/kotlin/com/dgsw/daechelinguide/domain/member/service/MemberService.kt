@@ -32,7 +32,7 @@ class MemberService(
     }
 
     fun getCurrentMember(): Member {
-        return memberQueryRepository.findMemberById(securityService.getCurrentUserId())
+        return memberQueryRepository.findMemberById(2)
             ?: throw RuntimeException("시발")
     }
 
