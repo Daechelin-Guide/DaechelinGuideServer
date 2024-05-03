@@ -28,6 +28,10 @@ class RatingService(
             throw RuntimeException("시발")
         }
 
+        if(request.comment != null && request.comment.isEmpty()) {
+            throw RuntimeException("시발")
+        }
+
         val rating = Rating(
             score = request.score,
             comment = request.comment,
