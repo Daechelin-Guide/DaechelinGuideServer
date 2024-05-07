@@ -57,6 +57,7 @@ class MenuQueryRepository(
         return jpaQueryFactory.selectFrom(entity)
             .where(entity.date.stringValue().between(request.mealStartDate, request.mealEndDate))
             .where(entity.mealType.eq(mealType))
+            .where(entity.menu.isNotNull)
             .orderBy(entity.totalScore.desc())
             .fetch()
     }
